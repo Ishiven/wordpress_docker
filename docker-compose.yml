@@ -1,0 +1,43 @@
+version: '2'
+
+services:
+
+  wordpress:
+    image: ishiven/test1
+    ports:
+      - '80:80'
+    expose:
+      - 80
+    restart:
+      on-failure:10
+    environment:
+      WORDPRESS_DB_USER: database
+      WORDPRESS_DB_PASSWORD: mkPwPAP4
+      WORDPRESS_DB_NAME: wp_database
+      WORDPRESS_TABLE_PREFIX: wp_
+      WORDPRESS_DB_HOST: mysql:3306
+    volumes:
+      - ./wordpress:/var/www/html
+    links:
+      - mysql
+    restart: unless-stopped
+
+  mysql:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: testpasswd
+      MYSQL_DATABASE: wp_database
+      MYSQL_USER: database
+      MYSQL_PASSWORD: mkPwPAP4
+    volumes:
+      - ./db_data:/var/lib/mysql
+    restart: unless-stopped
+
+  wp-cli:
+    image: pattonwebz/docker-wpcli
+    volumes_from:
+    - wordpress
+    links:
+    - mysql:mysql
+    entrypoint: wp
+    command: "--info"
