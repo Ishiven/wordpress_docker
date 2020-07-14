@@ -41,5 +41,5 @@ RUN set -ex; \
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/wordpress_docker/docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
