@@ -9,7 +9,7 @@ node {
         sh "aws ecr get-login-password --region eu-west-1 | sudo docker login --username AWS --password-stdin 814323053068.dkr.ecr.eu-west-1.amazonaws.com"
     }
     stage('Build image') {
-        sh "sudo docker build --build-arg APP_NAME=testapp -t 814323053068.dkr.ecr.eu-west-1.amazonaws.com/test1:latest -f ./Dockerfile ."
+        sh "sudo docker build --build-arg APP_NAME=testapp -t 814323053068.dkr.ecr.eu-west-1.amazonaws.com/test1:latest -f ./wordpress_docker/Dockerfile ."
     }
     stage('Push image') {
         docker.withRegistry('https://814323053068.dkr.ecr.eu-west-1.amazonaws.com', 'ecr:eu-west-1:test1') {
